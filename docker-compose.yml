@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   mysql:
@@ -12,7 +12,7 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - '3306:3306'
 
   backend:
     container_name: film-aura-backend
@@ -28,7 +28,7 @@ services:
     depends_on:
       - mysql
     ports:
-      - "3001:3001" # change ce port si besoin
+      - '3001:3001' # change ce port si besoin
     volumes:
       - ./film-aura-nestjs:/app
       - /app/node_modules
@@ -39,7 +39,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - '3000:3000'
     depends_on:
       - backend
     volumes:
