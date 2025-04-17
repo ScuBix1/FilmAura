@@ -1,5 +1,5 @@
-import Link from "next/link";
-import Image from "next/image";
+import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Header() {
   return (
@@ -41,9 +41,16 @@ export default function Header() {
             </Link>
           </li>
           <li>
-            <Link href="/connection">
-              <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1.5 rounded-lg transition">
+            <Link href="/login">
+              <button className="bg-blue-500 hover:bg-blue-300 text-white px-4 py-1.5 rounded-lg transition">
                 Se Connecter
+              </button>
+            </Link>
+          </li>
+          <li>
+            <Link href="/register">
+              <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1.5 rounded-lg transition">
+                S&apos;inscrire
               </button>
             </Link>
           </li>
