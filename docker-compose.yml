@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: film-aura-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: film_aura_db
+      MYSQL_USER: film_user
+      MYSQL_PASSWORD: film_pass
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  backend:
+    container_name: film-aura-backend
+    build:
+      context: ./film-aura-nestjs
+      dockerfile: Dockerfile
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: film_user
+      DB_PASSWORD: film_pass
+      DB_NAME: film_aura_db
+    depends_on:
+      - mysql
+    ports:
+      - "3001:3001" # change ce port si besoin
+    volumes:
+      - ./film-aura-nestjs:/app
+      - /app/node_modules
+
+  frontend:
+    container_name: film-aura-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:3001
+
+volumes:
+  mysql_data:
