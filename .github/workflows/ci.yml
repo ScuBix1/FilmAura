@@ -22,3 +22,11 @@ jobs:
         run: npm run lint
         working-directory: frontend
 
+      - name: Install dependencies (film-aura-nestjs)
+        run: npm install
+        working-directory: film-aura-nestjs
+
+      - name: Run lint (film-aura-nestjs)
+        run: npm run lint
+        working-directory: film-aura-nestjs
+
