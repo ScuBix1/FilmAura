@@ -7,6 +7,7 @@ import { AppDataSource } from './datasource.migration';
 import { User } from './users/users.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { TmdbModule } from './tmdb/tmdb.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AuthModule } from './auth/auth.module';
     }),
     UsersModule,
     AuthModule,
+    TmdbModule,
   ],
   controllers: [AppController],
   providers: [AppService],
