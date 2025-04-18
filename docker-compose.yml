@@ -1,37 +1,48 @@
-version: "3.8"
+version: '3.8'
 
 services:
   mysql:
     image: mysql:8.0
     container_name: film-aura-mysql
+    env_file:
+      - .env
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: film_aura_db
-      MYSQL_USER: film_user
-      MYSQL_PASSWORD: film_pass
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - '3306:3306'
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      timeout: 20s
+      retries: 10
+      start_period: 20s
 
   backend:
     container_name: film-aura-backend
     build:
       context: ./film-aura-nestjs
       dockerfile: Dockerfile
+    env_file:
+      - .env
     environment:
-      DB_HOST: mysql
-      DB_PORT: 3306
-      DB_USER: film_user
-      DB_PASSWORD: film_pass
-      DB_NAME: film_aura_db
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     ports:
-      - "3001:3001" # change ce port si besoin
-    volumes:
-      - ./film-aura-nestjs:/app
-      - /app/node_modules
+      - '3001:3001'
+    # volumes:
+    # - ./film-aura-nestjs:/app
+    #   - /app/node_modules
+    command: sh -c "npm run typeorm migration:run && npm run start:prod"
 
   frontend:
     container_name: film-aura-frontend
@@ -39,14 +50,14 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
-    depends_on:
-      - backend
+      - '3000:3000'
     volumes:
       - ./frontend:/app
       - /app/node_modules
+    env_file:
+      - .env
     environment:
-      NEXT_PUBLIC_API_URL: http://localhost:3001
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
 
 volumes:
   mysql_data:

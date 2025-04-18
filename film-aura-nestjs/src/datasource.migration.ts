@@ -2,7 +2,7 @@ import { DataSource } from 'typeorm';
 import * as dotenv from 'dotenv';
 import { User } from './users/users.entity';
 
-dotenv.config({ path: '.env.local' });
+dotenv.config({ path: '.env' });
 
 export const AppDataSource = new DataSource({
   type: 'mysql',
