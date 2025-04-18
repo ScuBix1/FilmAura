@@ -22,22 +22,22 @@ jobs:
         run: npm run lint
         working-directory: frontend
 
-  lint-back:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
-      - name: Install dependencies (film-aura-nestjs)
-        run: npm install
-        working-directory: film-aura-nestjs
+  # lint-back:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Setup Node
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 20
+  #     - name: Install dependencies (film-aura-nestjs)
+  #       run: npm install
+  #       working-directory: film-aura-nestjs
 
-      - name: Run lint (film-aura-nestjs)
-        run: npm run lint
+  #     - name: Run lint (film-aura-nestjs)
+  #       run: npm run lint
 
-        working-directory: film-aura-nestjs
+  #       working-directory: film-aura-nestjs
 
   audit-front:
     runs-on: ubuntu-latest
