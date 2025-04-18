@@ -12,7 +12,7 @@ import { TmdbModule } from './tmdb/tmdb.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: '.env.local',
+      envFilePath: '.env',
       isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({
