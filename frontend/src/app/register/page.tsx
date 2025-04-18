@@ -4,6 +4,8 @@ import { useState } from 'react';
 export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -19,12 +21,12 @@ export default function Register() {
     }
 
     try {
-      const response = await fetch('https://localhost:3001/auth/register', {
+      const response = await fetch('http://localhost:3001/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ firstName, lastName, email, password }),
       });
 
       if (!response.ok) {
@@ -33,7 +35,6 @@ export default function Register() {
       }
 
       setSuccess('Inscription réussie !');
-      // Tu peux rediriger ici avec router.push("/login") par exemple
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
@@ -49,6 +50,24 @@ export default function Register() {
         <h1 className="text-2xl font-bold text-center">Inscription</h1>
         {error && <p className="text-red-500 text-sm">{error}</p>}
         {success && <p className="text-green-500 text-sm">{success}</p>}
+
+        <input
+          type="text"
+          placeholder="Prénom"
+          className="w-full p-2 border rounded"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          required
+        />
+
+        <input
+          type="text"
+          placeholder="Nom"
+          className="w-full p-2 border rounded"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          required
+        />
 
         <input
           type="email"
