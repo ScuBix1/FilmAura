@@ -1,0 +1,108 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  lint-front:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          
+      - name: Install dependencies (frontend)
+        run: npm install
+        working-directory: frontend
+
+      - name: Run lint (frontend)
+        run: npm run lint
+        working-directory: frontend
+
+  # lint-back:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Setup Node
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 20
+  #     - name: Install dependencies (film-aura-nestjs)
+  #       run: npm install
+  #       working-directory: film-aura-nestjs
+
+  #     - name: Run lint (film-aura-nestjs)
+  #       run: npm run lint
+
+  #       working-directory: film-aura-nestjs
+
+  audit-front:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies (frontend)
+        run: npm install
+        working-directory: frontend
+          
+      - name: Audit (frontend)
+        run: npm audit --audit-level=moderate
+        working-directory: frontend
+
+  audit-back:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies (film-aura-nestjs)
+        run: npm install
+        working-directory: film-aura-nestjs    
+
+      - name: Audit (film-aura-nestjs)
+        run: npm audit --audit-level=moderate
+        working-directory: film-aura-nestjs
+
+  test-front:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies (frontend)
+        run: npm install
+        working-directory: frontend
+
+      - name: Run tests (frontend)
+        run: npm run test
+        working-directory: frontend
+
+  test-back:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies (film-aura-nestjs)
+        run: npm install
+        working-directory: film-aura-nestjs
+
+      - name: Run tests (film-aura-nestjs)
+        run: npm run test
+        working-directory: film-aura-nestjs
